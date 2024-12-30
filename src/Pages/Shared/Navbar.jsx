@@ -11,7 +11,7 @@ const Navbar = () => {
 
     const navOptions = < >
         <li><NavLink className='font-bold text-base' to='/'>Home</NavLink></li>
-        <li><NavLink className='font-bold text-base' to='/allFoods'>All Foods</NavLink></li>
+        <li><NavLink className='font-bold text-base' to='/menu'>Our Menu</NavLink></li>
         <li><NavLink className='font-bold text-base' to='/gallery'>Gallery</NavLink></li>
     </>
 
@@ -35,7 +35,7 @@ const Navbar = () => {
                             {navOptions}
                         </ul>
                     </div>
-                    <Link to='/' className=" text-3xl font-bold">BISTRO <span className="text-red-600 font-bold">BOSS</span></Link>
+                    <Link to='/' className=" text-3xl font-bold">DINE <span className="text-red-600 font-bold">MASTER</span></Link>
                 </div>
                 <div>
                     <div className="second hidden md:flex">
