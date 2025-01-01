@@ -12,7 +12,8 @@ const Navbar = () => {
     const navOptions = < >
         <li><NavLink className='font-bold text-base' to='/'>Home</NavLink></li>
         <li><NavLink className='font-bold text-base' to='/menu'>Our Menu</NavLink></li>
-        <li><NavLink className='font-bold text-base' to='/gallery'>Gallery</NavLink></li>
+        <li><NavLink className='font-bold text-base' to='/order/salad'>Order Food</NavLink></li>
+        <li><NavLink className='font-bold text-base' to='/login'>Login</NavLink></li>
     </>
 
  
