@@ -4,14 +4,20 @@ import { MdRemoveRedEye } from "react-icons/md";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
+import useAuth from "../hooks/useAuth";
+import Swal from "sweetalert2";
+import SocialLogin from "./Shared/SocialLogin";
+
+
 
 
 const Login = () => {
+    const { signIn } = useAuth()
 
 
     useEffect(() => {
        
-            loadCaptchaEnginge(6); 
+            loadCaptchaEnginge(4); 
         
     },[])
   
@@ -20,11 +26,13 @@ const Login = () => {
     const [successSMS, setSuccessSMS] = useState('');
     const [error, setError] = useState('');
     const [disabled, setDisabled] = useState(true)
+    const location = useLocation()
+    const navigate = useNavigate()
+    const from = location.state?.from?.pathname || '/';
 
 
 
     const emailRef = useRef();
-    const captchaRef = useRef(null);
 
   
     const handleLogin = e => {
@@ -53,8 +61,17 @@ const Login = () => {
             return;
         }
 
-        //password validation
-        //show password validation error
+        signIn(email, password)
+        .then(result => {
+            const user = result.user;
+            console.log(user)
+            Swal.fire({
+                title: "Login Successful",
+                icon: "success"
+            });
+
+            navigate(from, {replace: true});
+        })
         
 
     }
@@ -88,8 +105,8 @@ const Login = () => {
 
 
     }
-    const handlevalidate = () => {
-        const user_captcha_value = captchaRef.current.value;
+    const handlevalidate = (e) => {
+        const user_captcha_value = e.target.value;
         if(validateCaptcha(user_captcha_value)){
             setDisabled(false)
         }  
@@ -158,13 +175,11 @@ const Login = () => {
                     <input
                         name=""
                         type="text"
-                        ref={captchaRef}
+                        onBlur={handlevalidate}
                         placeholder="type the captcha above"
                         className="input input-bordered"
                         required />
-                        <button 
-                        onClick={handlevalidate}
-                        className="btn btn-xs btn-outline mt-2">Validate</button>
+                       
                 </div>
 
                 <div className="form-control mt-4">
@@ -172,7 +187,7 @@ const Login = () => {
                 </div>
 
                 <div>
-                    <p className="text-[14px] mt-3">dont have Account ? <Link to="/register"><button className="link link-info font-bold">Register</button>
+                    <p className="text-[14px] mt-3">dont have Account ? <Link to="/signUp"><button className="link link-info font-bold">Create an Account</button>
                     </Link></p>
                 </div>
                 <div className="divider"><small>OR</small></div>
@@ -182,11 +197,12 @@ const Login = () => {
 
             </form>
           
+           <SocialLogin></SocialLogin>
             </div>
 
-
+   
             <div className=" ">
-             
+        
             </div>
         </div>
     );
