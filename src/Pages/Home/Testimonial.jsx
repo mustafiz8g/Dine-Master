@@ -6,7 +6,7 @@ import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
 
 import '@smastrom/react-rating/style.css'
-import '../../../public/reviews.json'
+
 import { useEffect, useState } from "react";
 import { FaQuoteLeft } from "react-icons/fa";
 
@@ -14,7 +14,7 @@ const Testimonial = () => {
 
     const [review, setReview] = useState([])
     useEffect(() => {
-        fetch('reviews.json')
+        fetch('http://localhost:3900/reviews')
             .then(res => res.json())
             .then(data => { setReview(data) })
     }, [])

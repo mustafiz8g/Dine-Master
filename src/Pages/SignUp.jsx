@@ -4,8 +4,11 @@ import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet-async";
 import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../hooks/useAxiosPublic";
+import SocialLogin from "./Shared/SocialLogin";
 
 const SignUp = () => {
+    const axiosPublic = useAxiosPublic()
     const location = useLocation()
     const navigate = useNavigate()
     const from = location.state?.from?.pathname || '/';
@@ -20,13 +23,24 @@ const SignUp = () => {
                 console.log(loggedUser)
                 updateUserProfile(data.name, data.photoURL)
                     .then(() => {
+                        const userInfo = {
+                            name: data.name,
+                            email: data.email
+                        }
                         console.log('user profile info updated')
-                        reset();
-                        Swal.fire({
-                            title: "SignUp Successful",
-                            icon: "success"
-                        });
-                        navigate(from)
+                        axiosPublic.post('/users',userInfo)
+                        .then(res =>  {
+                            if(res.data.insertedId){
+                                console.log('user added the database')
+                                reset();
+                                Swal.fire({
+                                    title: "SignUp Successful",
+                                    icon: "success"
+                                });
+                                navigate(from)
+                            }
+                        })
+                     
                     })
                     .catch(error => {
                         console.log(error)
@@ -109,6 +123,7 @@ const SignUp = () => {
                     <input type="submit" value='SignUp' className="btn btn-primary  text-[16px] w-full" />
 
                 </form>
+                <SocialLogin></SocialLogin>
                 <div>
                     <p className="text-[14px] mt-3">Already have an Account? <Link to="/login"><button className="link link-info font-bold">Login</button>
                     </Link></p>
